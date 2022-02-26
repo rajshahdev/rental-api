@@ -16,7 +16,6 @@ class User(Base):
     phone = Column(String(10), nullable=False)
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=func.now())
     status = Column(Boolean, nullable=False, default=0)
-    userrented = relationship("Rent")
 
 
 
@@ -36,3 +35,12 @@ class Rent(Base):
     rental_date = Column(DATE, nullable=True)
     return_date = Column(DATE, nullable=True)
 
+
+class Emp(Base):
+    __tablename__ = 'tbl_emp_master'
+    id = Column(Integer, primary_key=True, nullable=False)
+    name = Column(String(200), nullable=False)
+    email = Column(String(200), nullable=False)
+    phone = Column(String(10), nullable=False)
+    password = Column(String(255),nullable=False)
+    created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))

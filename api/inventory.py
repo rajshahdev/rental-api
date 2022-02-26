@@ -2,17 +2,18 @@ from fastapi import FastAPI, Response, status, HTTPException, Depends, APIRouter
 from sqlalchemy.orm.session import Session
 from . import models
 from . import schemas
-from typing import Optional, List
+from . import oauth2
 from .database import get_db
 
 router = APIRouter(
     prefix="/inventory",
-    tags=['Inventory']
+    tags=['inventory']
 )
 
 
 @router.post('create/', response_model=schemas.VehicleOut)
-def add_vehicle(vehicle: schemas.VehicleAdd, db: Session = Depends(get_db)):
+def add_vehicle(vehicle: schemas.VehicleAdd, db: Session = Depends(get_db),
+                emp_id: int = Depends(oauth2.get_current_user)):
     if db.query(models.Inventory).filter(models.Inventory.vehicle_type == vehicle.vehicle_type).first() is not None:
         if vehicle.vehicle_type == db.query(models.Inventory).filter(
                 models.Inventory.vehicle_type == vehicle.vehicle_type).first().vehicle_type:
@@ -26,8 +27,7 @@ def add_vehicle(vehicle: schemas.VehicleAdd, db: Session = Depends(get_db)):
 
 
 @router.get('vehicles/')
-def get_vehicle_details(db: Session = Depends(get_db)):
+def get_vehicle_details(db: Session = Depends(get_db), emp_id: int = Depends(oauth2.get_current_user)):
     get_all_vehicles = db.query(models.Inventory).all()
-
 
     return {"status": True, "data": get_all_vehicles, "message": "vehicle added successfully"}

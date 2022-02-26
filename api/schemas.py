@@ -38,9 +38,6 @@ class UserOutSchema(BaseModel):
     message: str
 
 
-
-
-
 class ListUser(BaseModel):
     status: bool
     data: List[UserOut]
@@ -60,8 +57,9 @@ class VehicleOut(BaseModel):
     data: VehicleAdd
     message: str
 
+
 class RentOutVehicle(BaseModel):
-    id:int
+    id: int
     user_id: int
     inv_id: int
     rental_date: date
@@ -70,7 +68,38 @@ class RentOutVehicle(BaseModel):
     class Config:
         orm_mode = True
 
+
 class GetRentDetail(BaseModel):
-    status:bool
-    data:List[RentOutVehicle]
-    message:str
+    status: bool
+    data: List[RentOutVehicle]
+    message: str
+
+
+class EmpBase(UserBase):
+    password: str
+
+
+class EmpOut(BaseModel):
+    id: int
+    name: constr(min_length=1)
+    email: EmailStr
+    phone: constr(min_length=10, max_length=10)
+    created_at: date
+
+    class Config:
+        orm_mode = True
+
+
+class EmpOutSchema(BaseModel):
+    status: bool
+    data: EmpOut
+    message: str
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class Tokendata(BaseModel):
+    id: Optional[str] = None

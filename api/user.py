@@ -4,6 +4,7 @@ from . import models
 from . import schemas
 from typing import Optional, List
 from .database import get_db
+from . import oauth2
 router = APIRouter(
     prefix="/users",
     tags=['users']
@@ -11,7 +12,7 @@ router = APIRouter(
 
 
 @router.post('create/', response_model=schemas.UserOutSchema)
-def user_create(users:schemas.UserBase, db:Session = Depends(get_db)):
+def user_create(users:schemas.UserBase, db:Session = Depends(get_db),emp_id: int = Depends(oauth2.get_current_user)):
     if db.query(models.User).filter(models.User.email == users.email).first() is not None:
         if users.email == db.query(models.User).filter(models.User.email == users.email).first().email:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="email already exist")
@@ -24,7 +25,7 @@ def user_create(users:schemas.UserBase, db:Session = Depends(get_db)):
 
 
 @router.get('/',response_model=schemas.ListUser)
-def get_users(db:Session = Depends(get_db)):
+def get_users(db:Session = Depends(get_db),emp_id: int = Depends(oauth2.get_current_user)):
     list_users = db.query(models.User).all()
 
     return {"status": True, "data": list_users, "message": "User Created Successfully"}
