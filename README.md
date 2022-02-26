@@ -38,8 +38,6 @@ https://user-images.githubusercontent.com/48146258/155851769-3712c6fa-178b-45e6-
 * Deploy on heroku.
 * Add customer functionality and feature.
 
-PS.:- Sorry for the bad video quality. Github only takes 10mb video length.
-
 
 
 
