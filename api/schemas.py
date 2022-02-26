@@ -7,6 +7,13 @@ from pydantic.networks import EmailStr
 from pydantic.types import constr, conint
 
 
+class RentVehicle(BaseModel):
+    user_id: int
+    inv_id: int
+    rental_date: date
+    return_date: date
+
+
 class UserBase(BaseModel):
     name: constr(min_length=1)
     email: EmailStr
@@ -31,6 +38,9 @@ class UserOutSchema(BaseModel):
     message: str
 
 
+
+
+
 class ListUser(BaseModel):
     status: bool
     data: List[UserOut]
@@ -39,7 +49,7 @@ class ListUser(BaseModel):
 
 class VehicleAdd(BaseModel):
     vehicle_type: str
-    total: int
+    remaining: int
 
     class Config:
         orm_mode = True
@@ -50,9 +60,17 @@ class VehicleOut(BaseModel):
     data: VehicleAdd
     message: str
 
-
-class RentVehicle(BaseModel):
+class RentOutVehicle(BaseModel):
+    id:int
     user_id: int
     inv_id: int
     rental_date: date
     return_date: date
+
+    class Config:
+        orm_mode = True
+
+class GetRentDetail(BaseModel):
+    status:bool
+    data:List[RentOutVehicle]
+    message:str

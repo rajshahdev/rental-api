@@ -28,6 +28,3 @@ def get_users(db:Session = Depends(get_db)):
     list_users = db.query(models.User).all()
 
     return {"status": True, "data": list_users, "message": "User Created Successfully"}
-
-
-

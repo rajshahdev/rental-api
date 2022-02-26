@@ -21,15 +21,20 @@ def rent_vehicle(newrent: schemas.RentVehicle, db: Session = Depends(get_db)):
     if vehiclenotfound.first() is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="no such vehicle in our inventory")
 
+    if newrent.return_date < newrent.rental_date:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="date must be greater then current date")
+
+    if vehiclenotfound.first().remaining == 0:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="this vehicle is out of stock.")
     usernotfound.update({'status':True},synchronize_session=False)
     db.commit()
 
-    updated_total = vehiclenotfound.first().total - 1
+    updated_total = vehiclenotfound.first().remaining - 1
     if vehiclenotfound.first().allocated is None:
         updated_allocated = 1
     else:
         updated_allocated = vehiclenotfound.first().allocated + 1
-    vehiclenotfound.update({'total':updated_total,'allocated':updated_allocated},synchronize_session=False)
+    vehiclenotfound.update({'remaining':updated_total,'allocated':updated_allocated},synchronize_session=False)
     rent_new = models.Rent(**newrent.dict())
 
     db.add(rent_new)
@@ -37,3 +42,9 @@ def rent_vehicle(newrent: schemas.RentVehicle, db: Session = Depends(get_db)):
     db.refresh(rent_new)
 
     return {"status": True, "data": rent_new, "message": "vehicle added successfully"}
+
+
+@router.get('getdetail/',response_model=schemas.GetRentDetail)
+def get_rent_detail(db:Session = Depends(get_db)):
+    get_detail = db.query(models.Rent).all()
+    return {"status": True, "data": get_detail, "message": "detail fetched successfully"}

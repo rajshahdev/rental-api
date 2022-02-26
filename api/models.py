@@ -16,13 +16,15 @@ class User(Base):
     phone = Column(String(10), nullable=False)
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=func.now())
     status = Column(Boolean, nullable=False, default=0)
+    userrented = relationship("Rent")
+
 
 
 class Inventory(Base):
     __tablename__ = 'tbl_inventory_master'
     id = Column(Integer, primary_key=True, nullable=False)
     vehicle_type = Column(String(200), nullable=False, unique=True)
-    total = Column(Integer, nullable=False)
+    remaining = Column(Integer, nullable=False)
     allocated = Column(Integer, nullable=True)
 
 
@@ -33,3 +35,4 @@ class Rent(Base):
     inv_id = Column(Integer, ForeignKey('tbl_inventory_master.id', ondelete="CASCADE"), nullable=False)
     rental_date = Column(DATE, nullable=True)
     return_date = Column(DATE, nullable=True)
+
