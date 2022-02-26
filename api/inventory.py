@@ -18,6 +18,8 @@ def add_vehicle(vehicle: schemas.VehicleAdd, db: Session = Depends(get_db),
         if vehicle.vehicle_type == db.query(models.Inventory).filter(
                 models.Inventory.vehicle_type == vehicle.vehicle_type).first().vehicle_type:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="vehicle already exists")
+    if vehicle.remaining == 0:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="enter greater then 0")
     new_vehicle = models.Inventory(**vehicle.dict())
     db.add(new_vehicle)
     db.commit()
