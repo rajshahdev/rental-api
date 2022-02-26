@@ -32,3 +32,16 @@ Type the below command:-
 
 ### Below is the video representation
 
+https://user-images.githubusercontent.com/48146258/155851769-3712c6fa-178b-45e6-a1c7-449795024309.mp4                                   
+
+### Todo's (in future will do)
+* Deploy on heroku.
+* Add customer functionality and feature.
+
+PS.:- sorry for the bad video quality. Github only takes 10mb video length.
+
+
+
+
+
+
