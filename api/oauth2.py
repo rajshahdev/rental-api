@@ -57,7 +57,5 @@ def get_current_user(token: str = Depends(oauth2scheme), db: Session = Depends(g
 
     token = verify_access_token(token, credentials_exception)
 
-    # remember the below statement gives all the information --> if we return user
-    # user = db.query(models.User).filter(models.User.id == token.id).first()
 
     return token
