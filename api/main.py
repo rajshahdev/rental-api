@@ -6,7 +6,7 @@ from . import user, inventory, rent, employee, auth
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="Bike Rental",
+    title="rental-api",
     version="0.0.1",
     contact={
         "name": "Raj Shah",
