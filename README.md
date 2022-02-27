@@ -39,6 +39,7 @@ https://user-images.githubusercontent.com/48146258/155851769-3712c6fa-178b-45e6-
 * Add customer functionality and feature.
 
 
+#### P.S:- In video you see title as a bike rental but it is generic and i mistakenly wrote it.
 
 
 
