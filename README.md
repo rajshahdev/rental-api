@@ -1,4 +1,4 @@
-# rental-api leadzen assignment
+# rental-api
 
 ### Clone this project to your system:-
 <pre>git clone https://github.com/rajshahdev/rental-api.git</pre>
